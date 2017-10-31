@@ -1,0 +1,38 @@
+From 30e1bf0d6b6cecb114da52caa05056a45d05d5d1 Mon Sep 17 00:00:00 2001
+From: "Simental Magana, Marcos" <marcos.simental.magana@intel.com>
+Date: Tue, 31 Oct 2017 12:00:01 -0600
+Subject: [PATCH] makefile
+
+---
+ Makefile | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+ create mode 100644 Makefile
+
+diff --git a/Makefile b/Makefile
+new file mode 100644
+index 0000000..aa6bc42
+--- /dev/null
++++ b/Makefile
+@@ -0,0 +1,19 @@
++NAME ?= adobe-source-code-pro
++PREFIX ?= /usr
++FONTDIR ?= $(DESTDIR)$(PREFIX)/share/fonts
++
++.PHONY: all
++all: build
++
++.PHONY: build
++build: 
++	echo "Nothing to build"
++
++.PHONY: install
++install:
++	mkdir -p $(FONTDIR)/$(NAME)
++	for f in ./OTF/*.otf ; do \
++	    install -m0644 $$f $(FONTDIR)/$(NAME)/ ; \
++	done
++	echo "done"
++
+-- 
+2.14.3
+
