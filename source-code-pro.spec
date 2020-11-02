@@ -4,13 +4,14 @@
 #
 Name     : source-code-pro
 Version  : 1.050r.it
-Release  : 4
+Release  : 5
 URL      : https://github.com/adobe-fonts/source-code-pro/archive/2.030R-ro/1.050R-it.tar.gz
 Source0  : https://github.com/adobe-fonts/source-code-pro/archive/2.030R-ro/1.050R-it.tar.gz
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : OFL-1.1
-Requires: source-code-pro-data
+Requires: source-code-pro-data = %{version}-%{release}
+Requires: source-code-pro-license = %{version}-%{release}
 Patch1: 0001-makefile.patch
 
 %description
@@ -28,21 +29,41 @@ Group: Data
 data components for the source-code-pro package.
 
 
+%package license
+Summary: license components for the source-code-pro package.
+Group: Default
+
+%description license
+license components for the source-code-pro package.
+
+
 %prep
 %setup -q -n source-code-pro-2.030R-ro-1.050R-it
+cd %{_builddir}/source-code-pro-2.030R-ro-1.050R-it
 %patch1 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1509473372
-make V=1  %{?_smp_mflags}
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1604355639
+export GCC_IGNORE_WERROR=1
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
+export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=4 "
+export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
+make  %{?_smp_mflags}
+
 
 %install
-export SOURCE_DATE_EPOCH=1509473372
+export SOURCE_DATE_EPOCH=1604355639
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/package-licenses/source-code-pro
+cp %{_builddir}/source-code-pro-2.030R-ro-1.050R-it/LICENSE.txt %{buildroot}/usr/share/package-licenses/source-code-pro/689c1517e0db480765a3c35f13a7d942779d7e5e
 %make_install
 
 %files
@@ -64,3 +85,7 @@ rm -rf %{buildroot}
 /usr/share/fonts/adobe-source-code-pro/SourceCodePro-Regular.otf
 /usr/share/fonts/adobe-source-code-pro/SourceCodePro-Semibold.otf
 /usr/share/fonts/adobe-source-code-pro/SourceCodePro-SemiboldIt.otf
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/source-code-pro/689c1517e0db480765a3c35f13a7d942779d7e5e
