@@ -28,7 +28,7 @@ index 0000000..aa6bc42
 +.PHONY: install
 +install:
 +	mkdir -p $(FONTDIR)/$(NAME)
-+	for f in ./OTF/*.otf ; do \
++	for f in ./*.otf ; do \
 +	    install -m0644 $$f $(FONTDIR)/$(NAME)/ ; \
 +	done
 +	echo "done"
